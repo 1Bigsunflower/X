@@ -1,0 +1,44 @@
+要迁移到另一台服务器上怎么做
+https://www.showdoc.cc/help?page_id=2511252204165611
+怎么进入管理后台
+新安装完成后，默认管理员账号是showdoc/123456 。使用管理员帐户登录后，在项目列表页面的右上角便能看到管理后台入口。如果不能，请重新登录或者刷新浏览器缓存试试
+一直提示register fail
+如果是在ubuntu下，尝试执行apt-get install php5-sqlite 或者apt-get install php7-sqlite3 以安装sqlite支持
+对于其他的情况，出现register fail的错误时候请检查本机是否安装好了php-sqlite，以及文件确保可写。
+
+怎么进入管理后
+忘记了密码怎么办？
+如果是使用在线ShowDoc（http://www.showdoc.cc ），忘记密码的话可联系xing7th@gmail.com，邮件中说明你的用户名和旗下项目名字。
+如果是自己部署的ShowDoc，则首先根据前面安装文档进行升级，确保使用最新代码(划重点）。然后，根据安装方式的不同有不同的密码重置方式。
+如果是使用官方脚本或者docker方式安装的，请在命令行执行命令：
+docker exec showdoc php /var/www/html/index.php home/common/repasswd
+如果是手动安装php方式的，则在命令行中切换到web目录然后执行：
+php index.php home/common/repasswd
+以上命令会把管理员showdoc的密码重置为123456 。用此密码登录管理后台即可管理普通用户以及项目。建议登录后修改密码。
+若修改密码出错，请确保自己采用最新版代码。
+
+若是自行部署开源版ShowDoc，请确保自己安装好了docker或者PHP运行环境
+安装PHP环境可以参考：http://www.showdoc.cc/php
+由于系统、软件版本等情况各不相同，所以如果你一直安装PHP环境失败，可以尝试使用Docker方式部署：http://www.showdoc.cc/help?page_id=65610
+如果你觉得手动安装麻烦，或者觉得后期维护不方便，则可以使用在线ShowDoc http://www.showdoc.cc/
+
+开源版showdoc如何连接数据库
+showdoc使用sqlite数据库。数据库文件是安装目录下的Sqlite/showdoc.db.php。你可以网络搜索如何在命令行中使用 sqlite数据库.或者使用SQLiteStudio等可视化工具
+
+错误提示”Could not find driver “
+请安装php-pdo 和 pdo_sqlite 。
+对于Windowns服务器，在php.ini里面把”extension=php_sqlite.dll”和”extension=php_pdo_sqlite.dll”启用以便开启对SQlite的支持；
+Linux服务器安装php5.3以上版本时理论上默认是开启了php-pdo和pdo_sqlite的。如果你安装的PHP依然没有，则可搜索网络教程安装之。
+
+错误提示”General error: 11 database disk image is malformed”
+请确保服务器安装好了php环境和php-sqlite扩展；
+如果你以FTP方式上传代码到服务器，那么请使用二进制模式上传，否则会损害数据库文件，导致此错误提示
+
+可以使用mysql数据库吗
+官方已经不再支持mysql数据库，详情可看：http://www.showdoc.cc/help?page_id=31990 如你真的需要强制使用mysql，则可自行二次开发，但官方不提供支持，也请勿浪费时间问官方团队。经过二次开发的版本有可能与官方以后的版本升级冲突导致升级失败，请谨慎考虑
+
+验证码不显示
+请检查是否安装了php-gd库
+
+提示验证码验证失败
+先到php.ini文件下找找session的保存目录，然后检查安装session目录有没有写入权限，或者可不可能是磁盘空间满了的问题
